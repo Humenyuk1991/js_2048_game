@@ -63,6 +63,12 @@ class Game {
     startBtn.classList.add('restart');
     startBtn.textContent = 'Restart';
 
+    const startMessage = document.querySelector('.message-start');
+
+    if (startMessage) {
+      startMessage.classList.add('hidden');
+    }
+
     if (!this.initialState) {
       this.addRandomTile();
       this.addRandomTile();
@@ -122,21 +128,21 @@ class Game {
     let moved = false;
 
     for (let r = 0; r < 4; r++) {
-      const newRow = this.compress([...this.state[r]]);
+      const row = [...this.state[r]];
+      const newRow = this.compress(row);
 
-      if (JSON.stringify(newRow) !== JSON.stringify(this.state[r])) {
+      if (newRow.toString() !== row.toString()) {
         moved = true;
-
-        this.state[r] = newRow;
       }
-
-      if (moved) {
-        this.addRandomTile();
-        this.checkGameStatus();
-      }
-
-      return moved;
+      this.state[r] = newRow;
     }
+
+    if (moved) {
+      this.addRandomTile();
+      this.checkGameStatus();
+    }
+
+    return moved;
   }
   moveRight() {
     let moved = false;
@@ -161,7 +167,7 @@ class Game {
   }
 
   moveUp() {
-    const moved = false;
+    let moved = false;
 
     if (this.status !== 'playing') {
       return false;
@@ -174,17 +180,14 @@ class Game {
         column.push(this.state[r][c]);
       }
 
-      const prevState = JSON.stringify(this.state);
+      const newColumn = this.compress(column);
+
+      if (JSON.stringify(newColumn) !== JSON.stringify(column)) {
+        moved = true;
+      }
 
       for (let r = 0; r < 4; r++) {
-        if (JSON.stringify(prevState) !== JSON.stringify(this.state)) {
-          this.addRandomTile();
-          this.checkGameStatus();
-
-          return true;
-        }
-
-        return false;
+        this.state[r][c] = newColumn[r];
       }
     }
 
