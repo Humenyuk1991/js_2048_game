@@ -5,6 +5,7 @@
 // const game = new Game();
 
 // Write your code here
+
 const cells = document.querySelectorAll('.field-cell');
 
 function renderBoard() {
@@ -80,7 +81,9 @@ class Game {
       ? this.initialState.map((r) => [...r])
       : this.createEmptyBoard();
     this.score = 0;
-    this.status = 'idle';
+    this.status = 'playing';
+    this.addRandomTile();
+    this.addRandomTile();
   }
 
   addRandomTile() {
