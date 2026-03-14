@@ -17,6 +17,7 @@ function renderBoard() {
     const value = state[row][col];
 
     cell.className = 'field-cell';
+
     if (value !== 0) {
       cell.textContent = value;
       cell.classList.add(`field-cell--${value}`);
