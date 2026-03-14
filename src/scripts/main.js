@@ -16,7 +16,13 @@ function renderBoard() {
     const col = index % 4;
     const value = state[row][col];
 
-    cell.textContent = value === 0 ? '' : value;
+    cell.className = 'field-cell';
+    if (value !== 0) {
+      cell.textContent = value;
+      cell.classList.add(`field-cell--${value}`);
+    } else {
+      cell.textContent = '';
+    }
   });
 }
 
